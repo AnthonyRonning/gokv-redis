@@ -15,7 +15,6 @@ import (
 // Don't use the default number ("0"),
 // which could lead to valuable data being deleted when a developer accidentally runs the test with valuable data in DB 0.
 var testDbNumber = 15 // 16 DBs by default (unchanged config), starting with 0
-var testMasterName = "mymaster"
 
 // TestClient tests if reading from, writing to and deleting from the store works properly.
 // A struct is used as value. See TestTypes() for a test that is simpler but tests all types.
@@ -186,13 +185,10 @@ func TestClose(t *testing.T) {
 // checkConnection returns true if a connection could be made, false otherwise.
 func checkConnection(number int) bool {
 	addrs := strings.Split(redis.DefaultOptions.Address, ",")
-	// test
-	// addrs := []string{"localhost:26379"}
 	client := goredis.NewUniversalClient(&goredis.UniversalOptions{
-		Addrs:      addrs,
-		Password:   redis.DefaultOptions.Password,
-		DB:         number,
-		MasterName: testMasterName,
+		Addrs:    addrs,
+		Password: redis.DefaultOptions.Password,
+		DB:       number,
 	})
 	defer client.Close()
 	err := client.Ping().Err()
@@ -205,10 +201,8 @@ func checkConnection(number int) bool {
 
 func createClient(t *testing.T, codec encoding.Codec) redis.Client {
 	options := redis.Options{
-		//Address:    "localhost:26379",
-		DB:         testDbNumber,
-		Codec:      codec,
-		MasterName: testMasterName,
+		DB:    testDbNumber,
+		Codec: codec,
 	}
 	client, err := redis.NewClient(options)
 	if err != nil {
