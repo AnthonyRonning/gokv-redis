@@ -1,4 +1,4 @@
-package gokv-redis
+package redis
 
 import (
 	"strings"

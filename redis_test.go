@@ -7,7 +7,7 @@ import (
 
 	goredis "github.com/go-redis/redis"
 
-	redis "github.com/anthonyronning/gokv-redis"
+	"github.com/anthonyronning/redis"
 	"github.com/philippgille/gokv/encoding"
 	"github.com/philippgille/gokv/test"
 )
